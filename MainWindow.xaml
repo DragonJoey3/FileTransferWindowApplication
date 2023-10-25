@@ -1,0 +1,93 @@
+﻿<Window x:Class="FileTransferWindowApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileTransferWindowApplication"
+        mc:Ignorable="d"
+        Title="File Transfer App" Height="485" Width="800" Icon="Icon1.ico"
+        ResizeMode="NoResize"
+        Name="_root">
+    <Grid>
+        <TabControl SelectionChanged="TabChanged">
+            <TabItem Header="Import From Phone">
+                <StackPanel x:Name="mainPanel" Orientation="Vertical">
+
+                    <TextBlock Margin="10" HorizontalAlignment="Center" FontSize="26">Welcome to Joe's Photo Transfer Application</TextBlock>
+                    <TextBlock Margin="10" HorizontalAlignment="Center">This application is designed to make it easy to move files from your phone to your computer<LineBreak/>
+            Please ensure that your phone is plugged into the computer via USB.
+                    </TextBlock>
+                    <Separator/>
+                    <StackPanel Name="NoDevDisplay" >
+                        <TextBlock  HorizontalAlignment="Center" Margin="0,10" Foreground="Red" FontSize="20">No devices found.</TextBlock>
+                        <Button Content="Refresh Device List" MaxWidth="150" Background="AliceBlue" Click="RefreshButton"/>
+                    </StackPanel>
+                    <StackPanel Name="DeviceDisplay" Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                        <TextBlock  HorizontalAlignment="Center" Margin="0,10" FontSize="20">Phone found.</TextBlock>
+                    </StackPanel>
+                    <StackPanel Name="TMDevDisplay" Visibility="Collapsed" Orientation="Vertical" HorizontalAlignment="Center">
+                        <TextBlock  HorizontalAlignment="Center" Margin="0,10" Foreground="Red" FontSize="20">Too many devices found.  Please plugin only the phone.</TextBlock>
+                        <Button Content="Refresh Device List" MaxWidth="150" Background="AliceBlue" Click="RefreshButton"/>
+                    </StackPanel>
+                    <Separator Margin="0,10"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="18">Trip Information</TextBlock>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label Content="Trip Name" VerticalAlignment="Center"/>
+                        <TextBox Name="TripName" Width="150" Margin="10"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label Content="Start Date:" VerticalAlignment="Center"/>
+                        <DatePicker Name="StartDate" Width="200" Margin="10"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label Content="End Date:" VerticalAlignment="Center"/>
+                        <DatePicker Name="EndDate" Width="200" Margin="10"/>
+                    </StackPanel>
+                    <Button Content="Import Photos" MaxWidth="150" Background="AliceBlue" Name="ipbutton" Click="ImportPhotos_Click"/>
+                    <Grid Margin="20" x:Name="ProgressSection" Visibility="Collapsed">
+                        <ProgressBar Visibility="Visible" x:Name="pbStatus" Margin="20" Height="20" 
+                             IsIndeterminate="true" 
+                             Maximum="1"
+                             Minimum="0" />
+                        <TextBlock Name="pbText" Text="Loading..." HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Export to USB" >
+                <StackPanel x:Name="usbMainPanel" Orientation="Vertical">
+                    <TextBlock Margin="10" HorizontalAlignment="Center" FontSize="26">Welcome to Joe's Photo Transfer Application</TextBlock>
+                    <TextBlock Margin="10" HorizontalAlignment="Center">This tab is designed to make it easy to move files already imported to your computer<LineBreak/>
+              to a  USB.  Start by selecting a trip and then a USB drive.
+                    </TextBlock>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label VerticalAlignment="Center" Content="Select a USB drive to write to: "></Label>
+                        <ComboBox MinWidth="30" Margin="10" Name="DriveDD" SelectedItem="{Binding ElementName=_root, Path=SelectedDrive, Mode=TwoWay}">
+                        </ComboBox>
+                        <Button Margin="5" VerticalAlignment="Center" Content="Refresh" Click="RefreshDriveList"/>
+                    </StackPanel>
+                    <Separator Margin="0,10"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label VerticalAlignment="Center" Content="Select a trip to export: "></Label>
+                        <ComboBox Margin="10" MinWidth="160" Name="TripsDD" 
+                                  SelectedItem="{Binding ElementName=_root, Path=SelectedTrip, Mode=TwoWay}">
+
+                        </ComboBox>
+                    </StackPanel>
+                    <Separator Margin="0,10"/>
+                    <Button Content="Export Photos" MaxWidth="150" Background="AliceBlue" Name="epbutton" Click="ExportPhotos_Click"/>
+                    <Grid Margin="20" x:Name="ExProgressSection" Visibility="Collapsed">
+                        <ProgressBar Visibility="Visible" x:Name="exPbStatus" Margin="20" Height="20" 
+                             IsIndeterminate="true" 
+                             Maximum="1"
+                             Minimum="0" />
+                        <TextBlock Name="exPbText" Text="Loading..." HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        
+
+        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">Copyright © Joseph David Furches, 2023  Version 2.0</TextBlock>
+    </Grid>
+</Window>
